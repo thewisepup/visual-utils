@@ -1,5 +1,10 @@
 # Web App TODO List
 
+## Today's TODO
+- [ ] Create FileUploader Component
+- [ ] Restrict file types to images
+- [ ] Restrict file size to XXX MB
+- [ ] Placeholder to generate presigned URL and upload image to s3
 
 ## Deployment
 - [X] Create Next.js application
@@ -10,18 +15,15 @@
 
 ## File Uploads
 - [ ] Create FileUploader Component
-- [ ] Restrict file types to images
-- [ ] Restrict file size to XXX MB
-- [ ] Placeholder to generate presigned URL and upload image to s3
+- [ ] Create API to generate presigned URL for uploading images
+- [ ] Generate unique object key for each file upload
+- [ ] Update FileUploader component to use presigned URL to upload image to S3
 
 ## Backend and Infrastructure
 - [ ] Create AWS Account
 - [ ] Set up IaaC package
 - [ ] Create S3 bucket for user uploads
 - [ ] Set up Next.js and S3/AWS integration
-- [ ] Create API to generate presigned URL for uploading images
-- [ ] Generate unique object key for each file upload
-- [ ] Update FileUploader component to use presigned URL to upload image to S3
 
 ## Image Processing
 - [ ] Create Hello World Lambda
