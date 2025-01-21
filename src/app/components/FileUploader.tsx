@@ -1,12 +1,11 @@
 "use client";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { ASSET_CONFIGS, AssetType } from "../utils/file/asset-configs";
 import { uploadFile } from "../utils/file/file-upload";
 import { isAssetSizeValid } from "../utils/file/file-validation";
+import { FileSizeErrorAlert } from "./FileSizeErrorAlert";
 
 export type FileUploaderProps = {
   assetType: AssetType;
@@ -47,12 +46,7 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
         onChange={handleFileChange}
       />
       {showSizeError && (
-        <Alert variant="destructive">
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>
-            File Upload Size Too Big {ASSET_CONFIGS[assetType].maxSize}MB
-          </AlertDescription>
-        </Alert>
+        <FileSizeErrorAlert maxSizeMB={ASSET_CONFIGS[assetType].maxSize} />
       )}
       {selectedImage && (
         <div style={{ marginTop: "20px" }}>
