@@ -1,7 +1,10 @@
+import FileUploader from "./components/FileUploader";
+
 export default function Home() {
   return (
     <div>
-      <h1>Hello World THIS SHOULD CHANGE IN VERCEL DEPLOYMENT</h1>
+      <h1>Upload an image to split it into its RGB components</h1>
+      <FileUploader assetType="RGB_SPLITTING" />
     </div>
   );
 }

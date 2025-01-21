@@ -1,10 +1,11 @@
 # Web App TODO List
 
 ## Today's TODO
-- [ ] Create FileUploader Component
-- [ ] Restrict file types to images
-- [ ] Restrict file size to XXX MB
-- [ ] Placeholder to generate presigned URL and upload image to s3
+- [X] Create FileUploader Component
+- [X] Display image preview
+- [X] Restrict file types to images
+- [X] Restrict file size to XXX MB
+- [X] Placeholder to generate presigned URL and upload image to s3
 
 ## Deployment
 - [X] Create Next.js application
@@ -14,7 +15,7 @@
 - [X] Test continuous deployment
 
 ## File Uploads
-- [ ] Create FileUploader Component
+- [X] Create FileUploader Component
 - [ ] Create API to generate presigned URL for uploading images
 - [ ] Generate unique object key for each file upload
 - [ ] Update FileUploader component to use presigned URL to upload image to S3
