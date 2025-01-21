@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { ASSET_CONFIGS, AssetType } from "../utils/file/asset-configs";
-import { uploadFile } from "../utils/file/file-upload";
-import { isAssetSizeValid } from "../utils/file/file-validation";
-import { FileSizeErrorAlert } from "./FileSizeErrorAlert";
+import { Input } from '@/components/ui/input';
+import { useState } from 'react';
+import { ASSET_CONFIGS, AssetType } from '../utils/file/asset-configs';
+import { uploadFile } from '../utils/file/file-upload';
+import { isAssetSizeValid } from '../utils/file/file-validation';
+import { FileSizeErrorAlert } from './FileSizeErrorAlert';
 
 export type FileUploaderProps = {
   assetType: AssetType;
@@ -42,18 +42,18 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
       <Input
         id="picture"
         type="file"
-        accept={ASSET_CONFIGS[assetType].acceptedTypes.join(",")}
+        accept={ASSET_CONFIGS[assetType].acceptedTypes.join(',')}
         onChange={handleFileChange}
       />
       {showSizeError && (
         <FileSizeErrorAlert maxSizeMB={ASSET_CONFIGS[assetType].maxSize} />
       )}
       {selectedImage && (
-        <div style={{ marginTop: "20px" }}>
+        <div style={{ marginTop: '20px' }}>
           <img
             src={selectedImage}
             alt="Preview"
-            style={{ maxWidth: "100%", maxHeight: "400px" }}
+            style={{ maxWidth: '100%', maxHeight: '400px' }}
           />
         </div>
       )}
