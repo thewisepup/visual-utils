@@ -19,22 +19,30 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const file: File | null = event.target.files?.[0] ?? null;
-    if (file) {
-      if (!isAssetSizeValid(assetType, file)) {
-        setShowSizeError(true);
-        return;
-      }
+    const file = event.target.files?.[0];
+    if (!file) return;
 
+    if (!isAssetSizeValid(assetType, file)) {
+      setShowSizeError(true);
+      return;
+    }
+
+    await displayImagePreview(file);
+    await uploadFile(assetType, file);
+  };
+
+  const displayImagePreview = (file: File): Promise<void> => {
+    return new Promise((resolve) => {
       const reader = new FileReader();
+
       reader.onloadend = () => {
         setSelectedImage(reader.result as string);
         setShowSizeError(false);
+        resolve();
       };
-      reader.readAsDataURL(file);
 
-      uploadFile(assetType, file);
-    }
+      reader.readAsDataURL(file);
+    });
   };
 
   return (

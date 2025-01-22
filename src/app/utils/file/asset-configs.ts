@@ -8,8 +8,8 @@ interface AssetConfig {
 
 export const ASSET_CONFIGS: Record<AssetType, AssetConfig> = {
   RGB_SPLITTING: {
-    maxSize: 5 * 1024 * 1024, // 5MB TODO: update this to by a realistic value
+    maxSize: 5 * 1024 * 1024,
     acceptedTypes: ['image/*'],
-    bucketName: 'rgb-splitting-bucket', //TODO: update this to be actual bucket name
+    bucketName: 'rgb-splitting-bucket',
   },
 };
