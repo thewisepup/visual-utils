@@ -44,26 +44,32 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
       reader.readAsDataURL(file);
     });
   };
-
   return (
     <div>
+      {/* File Input */}
       <Input
         id="picture"
         type="file"
         accept={ASSET_CONFIGS[assetType].acceptedTypes.join(',')}
         onChange={handleFileChange}
       />
+
+      {/* Error Alert */}
       {showSizeError && (
-        <FileSizeErrorAlert maxSizeMB={ASSET_CONFIGS[assetType].maxSize} />
+        <FileSizeErrorAlert 
+          maxSizeMB={ASSET_CONFIGS[assetType].maxSize} 
+        />
       )}
+
+      {/* Image Preview */}
       {selectedImage && (
-        <div style={{ marginTop: '20px' }}>
+        <div className="mt-5">
           <Image
             src={selectedImage}
             alt="Preview"
             width={400}
             height={400}
-            style={{ maxWidth: '100%', height: 'auto', objectFit: 'contain' }}
+            className="max-w-full h-auto object-contain"
           />
         </div>
       )}
