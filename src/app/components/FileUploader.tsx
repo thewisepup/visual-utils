@@ -6,6 +6,7 @@ import { ASSET_CONFIGS, AssetType } from '../utils/file/asset-configs';
 import { uploadFile } from '../utils/file/file-upload';
 import { isAssetSizeValid } from '../utils/file/file-validation';
 import { FileSizeErrorAlert } from './FileSizeErrorAlert';
+import Image from 'next/image';
 
 export type FileUploaderProps = {
   assetType: AssetType;
@@ -38,7 +39,6 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
 
   return (
     <div>
-      <h1>File Uploader</h1>
       <Input
         id="picture"
         type="file"
@@ -50,10 +50,12 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
       )}
       {selectedImage && (
         <div style={{ marginTop: '20px' }}>
-          <img
+          <Image
             src={selectedImage}
             alt="Preview"
-            style={{ maxWidth: '100%', maxHeight: '400px' }}
+            width={400}
+            height={400}
+            style={{ maxWidth: '100%', height: 'auto', objectFit: 'contain' }}
           />
         </div>
       )}
