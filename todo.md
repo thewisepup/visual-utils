@@ -25,10 +25,10 @@
 
 ## Backend and Infrastructure
 
-- [ ] Create AWS Account
-- [ ] Set up IaaC package
-- [ ] Create S3 bucket for user uploads
-- [ ] Set up Next.js and S3/AWS integration
+- [X] Create AWS Account
+- [X] Set up IaaC package
+- [X] Create S3 bucket for user uploads
+- [X] Set up Next.js and S3/AWS integration
 
 ## Image Processing
 
