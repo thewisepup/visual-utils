@@ -2,11 +2,6 @@
 
 ## Today's TODO
 
-- [x] Create FileUploader Component
-- [x] Display image preview
-- [x] Restrict file types to images
-- [x] Restrict file size to XXX MB
-- [x] Placeholder to generate presigned URL and upload image to s3
 
 ## Deployment
 
@@ -19,9 +14,9 @@
 ## File Uploads
 
 - [x] Create FileUploader Component
-- [ ] Create API to generate presigned URL for uploading images
-- [ ] Generate unique object key for each file upload
-- [ ] Update FileUploader component to use presigned URL to upload image to S3
+- [X] Create API to generate presigned URL for uploading images
+- [X] Generate unique object key for each file upload
+- [X] Update FileUploader component to use presigned URL to upload image to S3
 
 ## Backend and Infrastructure
 
@@ -32,11 +27,11 @@
 
 ## Image Processing
 
-- [ ] Create Hello World Lambda
-- [ ] Create S3 Trigger to invoke Lambda
-- [ ] Create S3 bucket for processed images
-- [ ] Test uploading a mock image to the processed images S3 bucket
-- [ ] Implement RGB splitting functionality
+- [X] Create Hello World Lambda
+- [X] Create S3 Trigger to invoke Lambda
+- [X] Create S3 bucket for processed images
+- [X] Test uploading a mock image to the processed images S3 bucket
+- [X] Implement RGB splitting functionality
 
 ## Polling and Status Updates
 
