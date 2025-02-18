@@ -23,8 +23,14 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
   const getFileProcessingState = async (objectKey: string | null) => {
     if (!objectKey) return false;
     //api call
+
+    const isDoneProcessing = false;
+    if (isDoneProcessing) {
+      setIsFileProcessing(false);
+      setIsProcessingComplete(true);
+    }
     console.log('polling with objectKey: ', objectKey);
-    return false;
+    return isDoneProcessing;
   };
 
   const { isPolling } = usePoll({
