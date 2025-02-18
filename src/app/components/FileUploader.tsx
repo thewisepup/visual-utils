@@ -7,6 +7,7 @@ import { uploadFile } from '../utils/file/file-upload';
 import { isAssetSizeValid } from '../utils/file/file-validation';
 import { FileSizeErrorAlert } from './FileSizeErrorAlert';
 import Image from 'next/image';
+import { usePoll } from '@/hooks/usePoll';
 
 export type FileUploaderProps = {
   assetType: AssetType;
@@ -15,10 +16,27 @@ export type FileUploaderProps = {
 export default function FileUploader({ assetType }: FileUploaderProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showSizeError, setShowSizeError] = useState(false);
+  const [isFileProcessing, setIsFileProcessing] = useState(false);
+  const [isProcessingComplete, setIsProcessingComplete] = useState(false);
+  const [objectKey, setObjectKey] = useState<string | null>(null);
+
+  const getFileProcessingState = async (objectKey: string | null) => {
+    if (!objectKey) return false;
+    //api call
+    console.log('polling with objectKey: ', objectKey);
+    return false;
+  };
+
+  const { isPolling } = usePoll({
+    getPollingState: () => getFileProcessingState(objectKey),
+    shouldPoll: isFileProcessing,
+    interval: 2000,
+  });
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    setIsFileProcessing(true);
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -28,7 +46,8 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
     }
 
     await displayImagePreview(file);
-    await uploadFile(assetType, file);
+    const objectKey = await uploadFile(assetType, file);
+    setObjectKey(objectKey);
   };
 
   const displayImagePreview = (file: File): Promise<void> => {
@@ -56,10 +75,31 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
 
       {/* Error Alert */}
       {showSizeError && (
-        <FileSizeErrorAlert 
-          maxSizeMB={ASSET_CONFIGS[assetType].maxSize} 
-        />
+        <FileSizeErrorAlert maxSizeMB={ASSET_CONFIGS[assetType].maxSize} />
       )}
+
+      {isPolling && (
+        <div>
+          File Processing...
+          <button
+            onClick={() => setIsFileProcessing(false)}
+            className="ml-2 px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
+          >
+            Cancel Processing
+          </button>
+          <button
+            onClick={() => {
+              setIsFileProcessing(false);
+              setIsProcessingComplete(true);
+            }}
+            className="ml-2 px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
+          >
+            Complete Processing
+          </button>
+        </div>
+      )}
+
+      {isProcessingComplete && <div>Processing Complete</div>}
 
       {/* Image Preview */}
       {selectedImage && (
