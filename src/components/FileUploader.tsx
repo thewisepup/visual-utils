@@ -2,14 +2,15 @@
 
 import { Input } from '@/components/ui/input';
 import { useState, useCallback } from 'react';
-import { ASSET_CONFIGS, AssetType } from '../app/utils/file/asset-configs';
-import { uploadFile } from '../app/utils/file/file-upload';
-import { isAssetSizeValid } from '../app/utils/file/file-validation';
+
 import Image from 'next/image';
 import { usePoll } from '@/hooks/usePoll';
 import { Spinner } from '@/components/spinner';
 import { FileSizeErrorAlert } from '@components/FileSizeErrorAlert';
 import { RGBImageDisplay } from '@components/RGBImageDisplay';
+import { ASSET_CONFIGS, AssetType } from '@/utils/file/asset-configs';
+import { isAssetSizeValid } from '@/utils/file/file-validation';
+import { uploadFile } from '@/utils/file/file-upload';
 
 export type FileUploaderProps = {
   assetType: AssetType;
