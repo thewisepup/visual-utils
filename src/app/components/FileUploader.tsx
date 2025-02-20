@@ -1,7 +1,7 @@
 'use client';
 
 import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { ASSET_CONFIGS, AssetType } from '../utils/file/asset-configs';
 import { uploadFile } from '../utils/file/file-upload';
 import { isAssetSizeValid } from '../utils/file/file-validation';
@@ -31,7 +31,7 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
     blue: boolean;
   }>({ red: false, green: false, blue: false });
 
-  const downloadRGBImages = async (objectKey: string) => {
+  const downloadRGBImages = useCallback(async (objectKey: string) => {
     try {
       const colors = ['red', 'green', 'blue'];
       setImageLoadingStates({ red: true, green: true, blue: true });
@@ -59,22 +59,27 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
     } catch (error) {
       console.error('Error downloading RGB images:', error);
     }
-  };
+  }, []);
 
-  const getFileProcessingState = async (objectKey: string | null) => {
-    if (!objectKey) return false;
+  const getFileProcessingState = useCallback(
+    async (objectKey: string | null) => {
+      if (!objectKey) return false;
 
-    const response = await fetch(`/api/rgb/processed/status?key=${objectKey}`);
-    const { exists } = await response.json();
+      const response = await fetch(
+        `/api/rgb/processed/status?key=${objectKey}`
+      );
+      const { exists } = await response.json();
 
-    if (exists) {
-      setIsFileProcessing(false);
-      await downloadRGBImages(objectKey);
-      return true;
-    }
+      if (exists) {
+        setIsFileProcessing(false);
+        await downloadRGBImages(objectKey);
+        return true;
+      }
 
-    return false;
-  };
+      return false;
+    },
+    [downloadRGBImages]
+  );
 
   const { isPolling } = usePoll({
     getPollingState: () => getFileProcessingState(objectKey),
