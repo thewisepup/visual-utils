@@ -17,7 +17,6 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showSizeError, setShowSizeError] = useState(false);
   const [isFileProcessing, setIsFileProcessing] = useState(false);
-  const [isProcessingComplete, setIsProcessingComplete] = useState(false);
   const [objectKey, setObjectKey] = useState<string | null>(null);
   const [rgbImages, setRgbImages] = useState<{
     red: string | null;
@@ -61,7 +60,6 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
 
     if (exists) {
       setIsFileProcessing(false);
-      setIsProcessingComplete(true);
       await downloadRGBImages(objectKey);
       return true;
     }
@@ -79,6 +77,9 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setIsFileProcessing(true);
+    // Reset rgbImages when starting a new upload
+    setRgbImages({ red: null, green: null, blue: null });
+
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -146,7 +147,7 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
         </div>
       )}
 
-      {isProcessingComplete && (
+      {!isFileProcessing && Object.values(rgbImages).some(Boolean) && (
         <div>
           <div className="grid grid-cols-3 gap-4 mt-4">
             {Object.entries(rgbImages).map(
