@@ -9,6 +9,7 @@ import { FileSizeErrorAlert } from './FileSizeErrorAlert';
 import Image from 'next/image';
 import { usePoll } from '@/hooks/usePoll';
 import { RGBImageDisplay } from './RGBImageDisplay';
+import { Spinner } from '@/components/spinner';
 
 export type FileUploaderProps = {
   assetType: AssetType;
@@ -135,8 +136,9 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
       )}
 
       {isPolling && (
-        <div>
-          File Processing...
+        <div className="flex items-center gap-2 mt-4">
+          <Spinner className="w-4 h-4" />
+          <span>Processing image...</span>
           <button
             onClick={() => setIsFileProcessing(false)}
             className="ml-2 px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
