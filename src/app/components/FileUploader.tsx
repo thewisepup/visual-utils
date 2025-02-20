@@ -8,7 +8,6 @@ import { isAssetSizeValid } from '../utils/file/file-validation';
 import { FileSizeErrorAlert } from './FileSizeErrorAlert';
 import Image from 'next/image';
 import { usePoll } from '@/hooks/usePoll';
-import { Spinner } from '@/components/spinner';
 import { RGBImageDisplay } from './RGBImageDisplay';
 
 export type FileUploaderProps = {

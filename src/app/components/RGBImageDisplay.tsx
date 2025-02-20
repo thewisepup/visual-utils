@@ -44,7 +44,7 @@ export function RGBImageDisplay({
                   height={200}
                   style={{ width: '100%', height: 'auto' }}
                   className="object-contain"
-                  onLoadingComplete={() =>
+                  onLoad={() =>
                     setImageLoadingStates((prev) => ({
                       ...prev,
                       [color]: false,
