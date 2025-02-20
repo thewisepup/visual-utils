@@ -9,6 +9,7 @@ import { FileSizeErrorAlert } from './FileSizeErrorAlert';
 import Image from 'next/image';
 import { usePoll } from '@/hooks/usePoll';
 import { Spinner } from '@/components/spinner';
+import { RGBImageDisplay } from './RGBImageDisplay';
 
 export type FileUploaderProps = {
   assetType: AssetType;
@@ -156,35 +157,11 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
       )}
 
       {!isFileProcessing && Object.values(rgbImages).some(Boolean) && (
-        <div>
-          <div className="grid grid-cols-3 gap-4 mt-4">
-            {Object.entries(rgbImages).map(
-              ([color, url]) =>
-                url && (
-                  <div key={color} className="flex flex-col items-center">
-                    <h3 className="capitalize mb-2">{color} Channel</h3>
-                    {imageLoadingStates[
-                      color as keyof typeof imageLoadingStates
-                    ] && <Spinner />}
-                    <Image
-                      src={url}
-                      alt={`${color} channel`}
-                      width={200}
-                      height={200}
-                      style={{ width: '100%', height: 'auto' }}
-                      className="object-contain"
-                      onLoadingComplete={() =>
-                        setImageLoadingStates((prev) => ({
-                          ...prev,
-                          [color]: false,
-                        }))
-                      }
-                    />
-                  </div>
-                )
-            )}
-          </div>
-        </div>
+        <RGBImageDisplay
+          rgbImages={rgbImages}
+          imageLoadingStates={imageLoadingStates}
+          setImageLoadingStates={setImageLoadingStates}
+        />
       )}
     </div>
   );
