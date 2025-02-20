@@ -19,6 +19,39 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
   const [isFileProcessing, setIsFileProcessing] = useState(false);
   const [isProcessingComplete, setIsProcessingComplete] = useState(false);
   const [objectKey, setObjectKey] = useState<string | null>(null);
+  const [rgbImages, setRgbImages] = useState<{
+    red: string | null;
+    green: string | null;
+    blue: string | null;
+  }>({ red: null, green: null, blue: null });
+
+  const downloadRGBImages = async (objectKey: string) => {
+    try {
+      const colors = ['red', 'green', 'blue'];
+      const urls = await Promise.all(
+        colors.map(async (color) => {
+          const { presignedUrl } = await (
+            await fetch(
+              `/api/rgb/processed/download-url?objectKey=${color}/${objectKey}`
+            )
+          ).json();
+          return { color, presignedUrl };
+        })
+      );
+
+      setRgbImages(
+        urls.reduce(
+          (acc, { color, presignedUrl }) => ({
+            ...acc,
+            [color]: presignedUrl,
+          }),
+          { red: null, green: null, blue: null }
+        )
+      );
+    } catch (error) {
+      console.error('Error downloading RGB images:', error);
+    }
+  };
 
   const getFileProcessingState = async (objectKey: string | null) => {
     if (!objectKey) return false;
@@ -29,6 +62,7 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
     if (exists) {
       setIsFileProcessing(false);
       setIsProcessingComplete(true);
+      await downloadRGBImages(objectKey);
       return true;
     }
 
@@ -95,19 +129,8 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
           >
             Cancel Processing
           </button>
-          <button
-            onClick={() => {
-              setIsFileProcessing(false);
-              setIsProcessingComplete(true);
-            }}
-            className="ml-2 px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
-          >
-            Complete Processing
-          </button>
         </div>
       )}
-
-      {isProcessingComplete && <div>Processing Complete</div>}
 
       {/* Image Preview */}
       {selectedImage && (
@@ -117,8 +140,32 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
             alt="Preview"
             width={400}
             height={400}
-            className="max-w-full h-auto object-contain"
+            style={{ width: '100%', height: 'auto' }}
+            className="object-contain"
           />
+        </div>
+      )}
+
+      {isProcessingComplete && (
+        <div>
+          <div className="grid grid-cols-3 gap-4 mt-4">
+            {Object.entries(rgbImages).map(
+              ([color, url]) =>
+                url && (
+                  <div key={color} className="flex flex-col items-center">
+                    <h3 className="capitalize mb-2">{color} Channel</h3>
+                    <Image
+                      src={url}
+                      alt={`${color} channel`}
+                      width={200}
+                      height={200}
+                      style={{ width: '100%', height: 'auto' }}
+                      className="object-contain"
+                    />
+                  </div>
+                )
+            )}
+          </div>
         </div>
       )}
     </div>
