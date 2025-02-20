@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Spinner } from '@/components/spinner';
+import { DownloadMedia } from '@components/DownloadMedia';
 
 type RGBImages = {
   red: string | null;
@@ -26,6 +27,10 @@ export function RGBImageDisplay({
   imageLoadingStates,
   setImageLoadingStates,
 }: RGBImageDisplayProps) {
+  const allImagesLoaded = Object.values(imageLoadingStates).every(
+    (state) => state === false
+  );
+
   return (
     <div>
       <div className="grid grid-cols-3 gap-4 mt-4">
@@ -51,6 +56,13 @@ export function RGBImageDisplay({
                     }))
                   }
                 />
+                {allImagesLoaded && (
+                  <DownloadMedia
+                    url={url}
+                    buttonText={`Download ${color}`}
+                    filename={`${color}-channel.png`}
+                  />
+                )}
               </div>
             )
         )}
