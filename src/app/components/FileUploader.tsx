@@ -8,6 +8,7 @@ import { isAssetSizeValid } from '../utils/file/file-validation';
 import { FileSizeErrorAlert } from './FileSizeErrorAlert';
 import Image from 'next/image';
 import { usePoll } from '@/hooks/usePoll';
+import { Spinner } from '@/components/spinner';
 
 export type FileUploaderProps = {
   assetType: AssetType;
@@ -23,10 +24,17 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
     green: string | null;
     blue: string | null;
   }>({ red: null, green: null, blue: null });
+  const [imageLoadingStates, setImageLoadingStates] = useState<{
+    red: boolean;
+    green: boolean;
+    blue: boolean;
+  }>({ red: false, green: false, blue: false });
 
   const downloadRGBImages = async (objectKey: string) => {
     try {
       const colors = ['red', 'green', 'blue'];
+      setImageLoadingStates({ red: true, green: true, blue: true });
+
       const urls = await Promise.all(
         colors.map(async (color) => {
           const { presignedUrl } = await (
@@ -155,6 +163,9 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
                 url && (
                   <div key={color} className="flex flex-col items-center">
                     <h3 className="capitalize mb-2">{color} Channel</h3>
+                    {imageLoadingStates[
+                      color as keyof typeof imageLoadingStates
+                    ] && <Spinner />}
                     <Image
                       src={url}
                       alt={`${color} channel`}
@@ -162,6 +173,12 @@ export default function FileUploader({ assetType }: FileUploaderProps) {
                       height={200}
                       style={{ width: '100%', height: 'auto' }}
                       className="object-contain"
+                      onLoadingComplete={() =>
+                        setImageLoadingStates((prev) => ({
+                          ...prev,
+                          [color]: false,
+                        }))
+                      }
                     />
                   </div>
                 )
